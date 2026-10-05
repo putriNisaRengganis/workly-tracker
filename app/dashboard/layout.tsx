@@ -18,6 +18,7 @@ import {
   Palmtree,
   Menu,
   X,
+  ChevronDown,
 } from "lucide-react";
 
 export default function DashboardLayout({
@@ -49,7 +50,7 @@ export default function DashboardLayout({
         { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
         { name: "Time Tracker", href: "/dashboard/time_tracker", icon: Timer },
         { name: "Timesheet", href: "/dashboard/timesheet", icon: FileText },
-        { name: "Calendar", href: "/dashboard/calendar", icon: Calendar },
+        { name: "Calendar", href: "/dashboard/calender", icon: Calendar },
       ],
     },
     {
@@ -164,11 +165,15 @@ export default function DashboardLayout({
         {/* Bottom User Info */}
         <div className="border-t border-slate-100 pt-3 flex items-center justify-between px-2">
           <Link
-            href="/dashboard/profile"
+            href="/dashboard/settings"
             className="flex items-center gap-2.5 overflow-hidden hover:opacity-80 transition-opacity"
           >
-            <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-700 text-xs shrink-0 border border-slate-300">
-              {userName ? userName.slice(0, 2).toUpperCase() : "PN"}
+            <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-700 text-xs shrink-0 border border-slate-300 overflow-hidden">
+              <img
+                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80"
+                alt="Avatar"
+                className="w-full h-full object-cover"
+              />
             </div>
             <div className="flex flex-col truncate">
               <span className="text-xs font-bold text-slate-800 truncate">
@@ -188,9 +193,48 @@ export default function DashboardLayout({
       </aside>
 
       {/* Main Content Render Area */}
-      <main className="flex-1 p-4 md:p-8 overflow-y-auto mt-14 md:mt-0">
-        {children}
-      </main>
+      <div className="flex-1 flex flex-col min-w-0 mt-14 md:mt-0">
+        {/* Top Navbar Header (Date, Notification Bell, & Profile Avatar) */}
+        <header className="hidden md:flex h-14 bg-white border-b border-slate-200 px-8 items-center justify-between shrink-0">
+          <div></div> {/* Spacer */}
+
+          <div className="flex items-center gap-3">
+            {/* Today Date Dropdown */}
+            <div className="flex items-center gap-2 text-xs font-semibold text-slate-600 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors">
+              <span>Today, 10 Aug 2026</span>
+              <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+            </div>
+
+            {/* Notification Bell */}
+            <Link
+              href="/dashboard/notifications"
+              className="p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-colors relative"
+              title="Notifications"
+            >
+              <Bell className="w-4 h-4" />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-blue-600 rounded-full ring-2 ring-white" />
+            </Link>
+
+            {/* Top Right Profile Avatar */}
+            <Link
+              href="/dashboard/settings"
+              className="w-8 h-8 rounded-full bg-slate-200 overflow-hidden border border-slate-300 hover:ring-2 hover:ring-blue-500/20 transition-all shrink-0"
+              title="View profile"
+            >
+              <img
+                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80"
+                alt="Profile Avatar"
+                className="w-full h-full object-cover"
+              />
+            </Link>
+          </div>
+        </header>
+
+        {/* Dynamic Page Content */}
+        <main className="flex-1 p-4 md:p-8 overflow-y-auto">
+          {children}
+        </main>
+      </div>
     </div>
   );
 }
